@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Cárdenas Chronicle</title>
+    <title>The Cárdenas Chronicle - Edición Impresa</title>
 
     <!-- TailwindCSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -16,6 +16,9 @@
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- StPageFlip Library -->
+    <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js"></script>
 
     <script>
         tailwind.config = {
@@ -30,13 +33,14 @@
                     colors: {
                         'black-ink': '#1c1f33',
                         'black-acc': '#222',
-                        'gray-paper': '#ededed',
+                        'gray-paper': '#fdfaf7',
+                        'gray-border': '#c2b5a3',
                     },
                     backgroundImage: {
                         'paper-texture': "url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/567707/paper_fibers.png')",
                     },
-                    gridTemplateColumns: {
-                        'newspaper': 'repeat(4, 1fr) 23%',
+                    boxShadow: {
+                        'page': '0 0 20px 0 rgba(0, 0, 0, 0.5)',
                     }
                 }
             }
@@ -45,10 +49,54 @@
 
     <style>
         body {
-            font-size: 1.1rem;
+            background-color: #333;
+            overflow: hidden;
+            font-family: "EB Garamond", serif;
+        }
+
+        .flip-book {
+            box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);
+            display: none;
+            background-size: cover;
+        }
+
+        .page {
+            background-color: #fdfaf7;
+            background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/567707/paper_fibers.png');
             color: #1c1f33;
-            line-height: 1.3;
-            text-align: justify;
+            border: solid 1px #c2b5a3;
+            overflow: hidden;
+        }
+
+        .page-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+            box-sizing: border-box;
+        }
+
+        .page-footer {
+            height: 30px;
+            border-top: solid 1px #e0d0b8;
+            font-size: 80%;
+            color: #998466;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            padding-top: 5px;
+        }
+
+        .drop-cap::first-letter {
+            float: left;
+            font-family: "Playfair Display", serif;
+            font-weight: 700;
+            font-size: 3.5rem;
+            line-height: 0.8;
+            margin-right: 0.5rem;
+            margin-top: 0.2rem;
         }
 
         .double-border {
@@ -57,481 +105,593 @@
             box-shadow: inset 0 0 0 1px #1c1f33;
         }
 
-        a:hover {
-            color: #222;
-        }
-
-        .drop-cap::first-letter {
-            float: left;
-            font-family: "Playfair Display", serif;
-            font-weight: 700;
-            font-size: 4.5rem;
-            line-height: 0.8;
-            margin-right: 0.5rem;
-            margin-top: 0.2rem;
-        }
-
-        /* Hover effects for "images" (icons containers) */
-        .hover-grayscale-0:hover .icon-content {
-            filter: grayscale(0);
-        }
-
-        .icon-content {
-            filter: grayscale(100%);
-            transition: 0.3s ease;
+        /* Utility for content layout */
+        .newspaper-col {
+            text-align: justify;
+            line-height: 1.4;
         }
     </style>
 </head>
 
-<body class="bg-gray-100 bg-paper-texture py-16 px-4 md:px-8 font-serif">
+<body class="h-screen w-screen flex flex-col items-center justify-center bg-gray-800">
 
-    <div class="max-w-[1135px] mx-auto">
+    <div class="container mx-auto p-4 h-full flex flex-col justify-center">
+        <!-- Controls -->
+        <div class="controls text-center mb-4 text-white">
+            <button
+                class="btn-prev bg-black-ink hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-l border border-gray-600">
+                <i class="fas fa-chevron-left"></i> Anterior
+            </button>
+            <span class="mx-4 font-sans uppercase tracking-widest text-sm">
+                Página <span class="page-current">1</span> de <span class="page-total">12</span>
+            </span>
+            <button
+                class="btn-next bg-black-ink hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-r border border-gray-600">
+                Siguiente <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
 
-        <main class="grid gap-5 md:grid-cols-4 lg:grid-cols-[repeat(4,1fr)_23%] auto-rows-auto">
+        <!-- Book -->
+        <div id="book" class="flip-book shadow-page">
 
-            <!-- HEADER SECTION -->
-            <h1 class="col-span-full font-sc text-5xl md:text-[70px] leading-none text-center mb-4 md:mb-6">The Cárdenas
-                Chronicle</h1>
+            <!-- PAGE 1: PORTADA -->
+            <div class="page">
+                <div class="page-content">
+                    <h1 class="font-sc text-5xl leading-none text-center mb-2">The Cárdenas Chronicle</h1>
 
-            <aside
-                class="col-span-full md:col-span-full text-center border-y-2 border-black-ink py-1 my-6 md:my-0 uppercase tracking-widest text-sm md:text-base font-sans font-bold">
-                <div class="flex items-center border-y border-black-ink py-2">
-                    <div class="flex-1 p-2">Vol. XI, No. 2025</div>
-                    <div class="flex-1 p-2 border-x border-black-ink">Loja, Ecuador • Diciembre 2025</div>
-                    <div class="flex-1 p-2">Edición Especial IA</div>
-                </div>
-            </aside>
-
-            <!-- MAIN HEADLINE -->
-            <h2
-                class="col-span-full lg:col-span-[1/-2] font-title italic text-3xl md:text-[42px] leading-tight text-left mb-4 md:mb-0">
-                Investigador Lojano publica en Springer: Metodología CARE+ revoluciona la IA Educativa
-            </h2>
-
-            <!-- MAIN TEXT -->
-            <div class="col-span-full lg:col-span-2 text-justify">
-                <div class="md:columns-2 gap-5 mt-3">
-                    <p class="mb-4 drop-cap">
-                        La comunidad académica celebra la reciente publicación del capítulo "CARE+: A Methodology for
-                        AI-Enhanced Learning", indexado en Springer. El autor, Charlie Cárdenas Toledo, Magíster en
-                        Ciencias y Tecnologías de la Computación, propone un marco innovador para desarrollar
-                        competencias del siglo XXI.
-                    </p>
-                    <p class="mb-4">
-                        "No se trata solo de usar tecnología", aclara Cárdenas, quien actualmente ejerce como docente a
-                        tiempo completo en la Universidad Internacional del Ecuador (UIDE). "Se trata de cómo la
-                        <em>Inteligencia Artificial</em> puede adaptarse a las necesidades cognitivas de cada estudiante
-                        en tiempo real".
-                    </p>
-                    <p class="mb-4">
-                        El estudio, identificado con el DOI <strong>10.1007/978-3-032-08366-1_8</strong>, marca un hito
-                        en su carrera investigativa, sumándose a sus publicaciones previas en IEEE y CISTI sobre Topic
-                        Modeling y Clustering educacional.
-                    </p>
-                    <p class="mb-0">
-                        Cárdenas mantiene una doble afiliación académica, colaborando también con la Universidad Técnica
-                        Particular de Loja (UTPL) desde 2022, consolidando un perfil que une la teoría pedagógica con la
-                        implementación técnica avanzada.
-                    </p>
-                </div>
-            </div>
-
-            <!-- TERRARIUM (FEATURED GRAPHIC) -->
-            <a href="#" class="col-span-full lg:col-span-2 group hover-grayscale-0 terrarium block mb-6 md:mb-0">
-                <figure
-                    class="h-full border border-black-ink relative overflow-hidden h-[300px] lg:h-full bg-gray-200 flex items-center justify-center">
                     <div
-                        class="icon-content text-9xl text-black-ink opacity-80 group-hover:scale-110 transition-transform duration-500">
-                        <i class="fas fa-brain"></i>
+                        class="flex items-center border-y-2 border-black-ink py-1 mb-6 uppercase tracking-widest text-[10px] font-sans font-bold text-center">
+                        <div class="flex-1 p-1">Vol. XI, No. 2025</div>
+                        <div class="flex-1 p-1 border-x border-black-ink">Loja, Ecuador</div>
+                        <div class="flex-1 p-1">Edición Especial IA</div>
                     </div>
-                    <figcaption
-                        class="absolute bottom-0 right-0 bg-white border-t border-l border-black-ink p-2 text-xs italic font-sans">
-                        Fig 1. Representación conceptual de CARE+
-                    </figcaption>
-                </figure>
-            </a>
 
-            <!-- SIDEBAR -->
-            <div
-                class="col-span-full lg:col-start-5 lg:row-start-3 lg:row-span-6 sidebar mt-12 lg:mt-0 lg:border-l lg:border-black-ink lg:pl-5">
-                <h3 class="font-title italic text-xl mb-4 text-center lg:text-left border-b border-black-ink pb-2">
-                    Destacado del Mes</h3>
+                    <h2 class="font-title italic text-3xl leading-tight text-center mb-4">
+                        CARE+: El Eslabón Perdido entre la IA y la Autonomía Cognitiva
+                    </h2>
 
-                <!-- Sidebar Item 1 -->
-                <a href="#" class="block mb-8 group">
-                    <div
-                        class="h-40 bg-gray-200 border border-black-ink mb-2 overflow-hidden flex items-center justify-center icon-content group-hover:bg-gray-300">
-                        <i class="fas fa-code-branch text-5xl"></i>
-                    </div>
-                    <div class="uppercase bg-gray-400 text-white text-xs px-2 py-1 inline-block mb-1 font-sans">Open
-                        Source</div>
-                    <h4 class="font-title text-lg leading-tight mb-2 group-hover:text-gray-600 transition-colors">
-                        Repositorio de Innovación</h4>
-                    <p class="text-sm">Explora los proyectos de código abierto y contribuciones en GitHub.</p>
-                </a>
-
-                <!-- Sidebar Item 2 -->
-                <a href="#" class="block mb-8 group sidebar-item">
-                    <h5
-                        class="font-bold text-lg font-serif text-center border-y border-black-ink py-2 hover:bg-black-ink hover:text-white transition-colors">
-                        ¿Buscas Colaboración?
-                    </h5>
-                    <p class="text-sm mt-3 text-justify">
-                        Disponible para proyectos de investigación y desarrollo de software.
-                        <br><strong>Email:</strong> charlie.act7@gmail.com
-                    </p>
-                </a>
-
-                <!-- Sidebar Item 3 (Slack UI equivalent) -->
-                <a href="#" class="block border-t border-black-ink pt-4 group">
-                    <h5 class="font-bold text-center mb-2">Stack Tecnológico</h5>
-                    <p class="text-sm text-center italic">Angular • React • NestJS</p>
-                    <div class="flex justify-center gap-2 mt-2 text-2xl icon-content">
-                        <i class="fab fa-angular"></i>
-                        <i class="fab fa-react"></i>
-                        <i class="fab fa-node-js"></i>
-                    </div>
-                </a>
-            </div>
-
-            <!-- IMAGE ITEM (PLAN) -> TIMELINE -->
-            <a href="#"
-                class="col-span-full lg:col-span-4 lg:row-span-1 block border-b border-black-ink pb-4 mb-6 md:mb-0 group hover-grayscale-0">
-                <div class="flex flex-col md:flex-row gap-4">
-                    <div
-                        class="md:w-1/2 h-64 border border-black-ink bg-gray-100 flex items-center justify-center icon-content overflow-hidden relative">
-                        <i class="fas fa-timeline text-8xl text-gray-400 absolute opacity-20 top-4 left-4"></i>
-                        <div class="text-center z-10">
-                            <div class="text-4xl font-black font-sc mb-2">2014 - 2025</div>
-                            <div class="text-sm font-sans uppercase tracking-widest">Cronología</div>
-                        </div>
-                    </div>
-                    <div class="md:w-1/2">
-                        <h4
-                            class="font-title text-2xl mb-2 group-hover:bg-black-ink group-hover:text-white px-2 transition-colors inline-block">
-                            Trayectoria Académica & Profesional</h4>
-                        <div class="columns-2 gap-4 text-sm mt-2 font-serif text-justify">
-                            <p class="mb-2"><strong>2024 (Actual):</strong> Docente a Tiempo Completo en
-                                <strong>UIDE</strong>. Liderando cátedras de Ingeniería de Software.
-                            </p>
-                            <p class="mb-2"><strong>2022 (Actual):</strong> Docente Tiempo Parcial en
-                                <strong>UTPL</strong> con enfoque en Machine Learning.
-                            </p>
-                            <p class="mb-2"><strong>2020-2022:</strong> Maestría en Ciencias de la Computación (UTPL).
-                                Registro SENESCYT 1031-2022-2440152.</p>
-                            <p class="mb-0"><strong>2014-2019:</strong> Ingeniería en Sistemas (UTPL). Registro SENESCYT
-                                1031-2019-2122417.</p>
-                        </div>
-                    </div>
-                </div>
-            </a>
-
-            <!-- HOGWARTS (TICKET) -> GITHUB PASS -->
-            <a href="https://github.com/CharlieCardenasToledo" target="_blank"
-                class="block col-span-full md:col-span-2 lg:col-span-1 lg:col-start-3 lg:row-span-2 lg:row-start-5 hogwarts group my-6 lg:my-0 double-border relative overflow-hidden bg-gray-50 h-[300px] lg:h-auto text-center hover:bg-white transition-colors">
-                <div
-                    class="font-sans font-extrabold text-xl uppercase bg-black-ink text-gray-200 py-3 px-2 group-hover:bg-transparent group-hover:text-black-ink transition-colors z-20 relative">
-                    GitHub Access
-                </div>
-                <div class="relative h-full w-full">
-                    <div
-                        class="absolute top-8 left-1/2 transform -translate-x-1/2 rotate-[-5deg] font-serif italic text-xl z-20 bg-white px-2 border border-black-ink shadow-md">
-                        Follow Me
-                    </div>
-                    <i
-                        class="fab fa-github text-[12rem] absolute -bottom-10 -left-10 transform rotate-[20deg] text-black-ink opacity-90 icon-content group-hover:scale-110 transition-transform"></i>
-                </div>
-            </a>
-
-            <!-- PASTA (MENU) -> SKILLS MENU -->
-            <a href="#"
-                class="item-with-image with-border border-t border-black-ink pt-3 col-span-full md:col-span-2 lg:col-span-2 lg:col-start-1 lg:row-start-8 group block">
-                <h4
-                    class="font-title text-2xl mb-2 group-hover:bg-black-ink group-hover:text-white px-1 transition-colors inline-block">
-                    Menú de Habilidades</h4>
-                <div class="grid grid-cols-2 gap-4 mt-2">
-                    <div>
-                        <h5 class="font-sans font-bold text-sm uppercase mb-1 border-b border-gray-400">Lenguajes</h5>
-                        <ul class="text-sm list-disc pl-4 marker:text-black-ink">
-                            <li>Python (Experto)</li>
-                            <li>JavaScript / TS</li>
-                            <li>R / SQL</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h5 class="font-sans font-bold text-sm uppercase mb-1 border-b border-gray-400">Frameworks</h5>
-                        <ul class="text-sm list-disc pl-4 marker:text-black-ink">
-                            <li>Angular / React</li>
-                            <li>NestJS / Flask</li>
-                            <li>Scikit-learn</li>
-                        </ul>
-                    </div>
-                </div>
-            </a>
-
-            <!-- MAGAZINE -> PUBLICACIONES -->
-            <a href="#"
-                class="item-with-image magazine border-y border-black-ink py-4 col-span-full md:col-span-2 lg:col-span-2 lg:col-start-1 lg:row-start-9 group block mt-6 lg:mt-0">
-                <div class="flex justify-between items-baseline mb-2">
-                    <h4
-                        class="font-title text-2xl group-hover:bg-black-ink group-hover:text-white px-1 transition-colors">
-                        Investigación</h4>
-                    <span class="text-xs font-sans font-bold border border-black-ink px-2">h-index: 1</span>
-                </div>
-                <p class="text-sm mb-3">Compendio de aportes científicos verificables en el ámbito educativo.</p>
-                <ul class="text-sm space-y-2">
-                    <li class="flex items-start gap-2">
-                        <i class="fas fa-file-alt mt-1 text-xs"></i>
-                        <span><strong>2023 IEEE:</strong> Topic Modeling in Teaching Innovation</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                        <i class="fas fa-file-alt mt-1 text-xs"></i>
-                        <span><strong>2022 CISTI:</strong> Clustering Innovative Teachers</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                        <i class="fas fa-book mt-1 text-xs"></i>
-                        <span><strong>2020 Book:</strong> Multi-Agent Smart Classroom</span>
-                    </li>
-                </ul>
-            </a>
-
-            <!-- STYLE (ADOPTION) -> METRICS -->
-            <a href="#"
-                class="item-with-image style col-span-full md:col-span-2 lg:col-span-2 lg:col-start-1 lg:row-start-10 group block mt-6 lg:mt-0 border-t border-black-ink pt-3">
-                <h4
-                    class="font-title text-2xl mb-2 group-hover:bg-black-ink group-hover:text-white px-1 transition-colors inline-block">
-                    Métricas de Impacto</h4>
-                <div class="flex gap-4 mt-2">
-                    <div
-                        class="flex-1 border border-black-ink p-3 text-center bg-gray-50 group-hover:bg-gray-200 transition-colors">
-                        <div class="text-3xl font-black font-sans">6.6</div>
-                        <div class="text-xs uppercase tracking-wide mt-1">ResearchGate</div>
-                    </div>
-                    <div
-                        class="flex-1 border border-black-ink p-3 text-center bg-gray-50 group-hover:bg-gray-200 transition-colors">
-                        <div class="text-3xl font-black font-sans">4</div>
-                        <div class="text-xs uppercase tracking-wide mt-1">Citas</div>
-                    </div>
-                </div>
-            </a>
-
-            <!-- TOGGLES -> SOFT SKILLS -->
-            <a href="#"
-                class="item-with-image toggles col-span-full md:col-span-2 lg:col-span-3 lg:col-start-3 lg:row-start-10 group block mt-6 lg:mt-0 ml-0 lg:ml-6">
-                <div class="flex flex-col md:flex-row gap-4 items-center">
-                    <div
-                        class="w-full md:w-1/3 border border-black-ink p-4 flex justify-center items-center h-32 bg-white">
-                        <i class="fas fa-users-cog text-6xl icon-content"></i>
-                    </div>
-                    <div class="w-full md:w-2/3">
-                        <h4
-                            class="font-title text-2xl mb-2 group-hover:bg-black-ink group-hover:text-white px-1 transition-colors inline-block">
-                            Competencias Transversales</h4>
-                        <p class="text-sm text-justify">
-                            Más allá del código, la capacidad de liderar equipos y comunicar ideas complejas es
-                            fundamental. Experiencia demostrada en <em>Metodologías Ágiles</em>, <em>Gestión de
-                                Proyectos Educativos</em> y <em>Comunicación Científica</em>. Dominio de herramientas de
-                            IA Generativa para optimización de flujos de trabajo.
+                    <div class="flex-grow newspaper-col">
+                        <p class="mb-4 drop-cap text-sm">
+                            La integración de la Inteligencia Artificial en la educación es un arma de doble filo. Si
+                            bien potencia el aprendizaje, estudios recientes advierten sobre el riesgo del "cognitive
+                            offloading" y la dependencia tecnológica.
                         </p>
-                    </div>
-                </div>
-            </a>
-
-            <!-- MENU (TOASTY) -> CONTACT LARGE -->
-            <a href="#"
-                class="menu col-span-full lg:col-span-2 lg:col-start-2 lg:row-start-7 group block mt-6 lg:mt-0 relative h-48 border border-black-ink bg-black-ink overflow-hidden text-white flex items-center p-6">
-                <i
-                    class="fas fa-envelope-open text-9xl absolute -right-4 -bottom-4 text-gray-700 opacity-50 rotate-12"></i>
-                <div class="relative z-10">
-                    <h4 class="font-title text-3xl italic mb-1">Contacto Oficial</h4>
-                    <p class="font-sans text-sm tracking-widest border-t border-gray-500 pt-2 inline-block">
-                        CHARLIE.ACT7@GMAIL.COM
-                    </p>
-                </div>
-            </a>
-
-            <!-- SOCIAL -> FOOTER NEWS -->
-            <a href="#"
-                class="social col-span-full lg:col-span-3 lg:col-start-1 lg:row-start-[14] grid grid-cols-[1fr_3fr] gap-0 border border-black-ink mt-6 group bg-gray-100 hover:bg-white transition-colors">
-                <div class="bg-black-ink flex items-center justify-center p-4">
-                    <i class="fas fa-globe-americas text-5xl text-gray-200"></i>
-                </div>
-                <div>
-                    <div class="bg-gray-400 text-white text-xs font-sans font-bold uppercase px-4 py-1">World Wide Web
-                    </div>
-                    <div class="p-4">
-                        <p class="text-sm">
-                            <strong>Nota del Editor:</strong> Este portafolio ha sido diseñado para ser accesible,
-                            responsive y profesional. Toda la información contenida es veraz y verificable. © 2025.
+                        <p class="mb-4 text-sm">
+                            En respuesta, se presenta <strong>CARE+ (Responsible and Experiential Augmented
+                                Cognition)</strong>, una metodología fundamentada en evidencia neurológica. "Basado en
+                            investigaciones EEG, CARE+ alterna estratégicamente entre fases asistidas por IA y
+                            aprendizaje independiente", señala el estudio.
                         </p>
-                    </div>
-                </div>
-            </a>
-
-            <!-- CSS GRID COLLECTION -> BOTTOM COLLECTION -->
-            <div
-                class="item-with-image cssgrid-collection col-span-full lg:row-start-12 mt-8 border-t border-black-ink pt-4 flex flex-col md:flex-row gap-6">
-                <a href="#"
-                    class="w-full md:w-1/3 border border-black-ink h-48 flex items-center justify-center bg-gray-200 group relative overflow-hidden">
-                    <i
-                        class="fas fa-project-diagram text-8xl text-black-ink opacity-20 group-hover:opacity-40 transition-opacity"></i>
-                    <div class="absolute inset-0 flex items-center justify-center">
-                        <span class="font-sc text-xl font-bold bg-white px-2 border border-black-ink">Proyectos</span>
-                    </div>
-                </a>
-                <div class="w-full md:w-2/3">
-                    <h4 class="font-title text-2xl mb-2">
-                        <a href="#" class="hover:underline decoration-1 underline-offset-4">Explora el Ecosistema
-                            Completo</a>
-                    </h4>
-                    <div class="md:columns-3 gap-6 text-sm text-justify">
-                        <p class="mb-2">Este portafolio es solo una muestra. En el repositorio completo encontrarás el
-                            <a href="cv-charlie-cardenas-toledo.pdf"
-                                class="border-b border-black-ink border-dashed hover:border-solid">PDF Académico</a>
-                            formal, ideal para procesos de selección rigurosos.
+                        <p class="mb-4 text-sm">
+                            El marco integra modelos validados (CARE-KNOW-DO, LAMB) y competencias UNESCO, demostrando
+                            su eficacia con un caso de estudio en <strong>DevOps</strong> para preservar la agencia
+                            humana.
                         </p>
-
-                        <p class="mb-2">También disponible el código fuente <a href="#"
-                                class="border-b border-black-ink border-dashed hover:border-solid">LaTeX</a> para
-                            quienes aprecian la tipografía científica.</p>
-
-                        <p>La versión <a href="index-pageflip-final.html"
-                                class="border-b border-black-ink border-dashed hover:border-solid font-bold">PageFlip</a>
-                            ofrece una experiencia interactiva alternativa.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- RECOMMENDATIONS SECTION -->
-            <div class="col-span-full border-t-4 border-black-ink mt-8 pt-6 mb-8">
-                <div class="text-center mb-8">
-                    <h2
-                        class="font-sc text-3xl font-black uppercase tracking-widest border-b-2 border-black-ink inline-block pb-1">
-                        Referencias &amp; Opiniones</h2>
-                    <p class="font-serif italic mt-2 text-sm">Voces de la comunidad profesional y académica</p>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-4">
-
-                    <!-- Recommendation 1: Paola Abad -->
-                    <div
-                        class="border border-black-ink p-4 hover:shadow-[4px_4px_0px_0px_rgba(28,31,51,1)] transition-shadow bg-white group">
-                        <div class="flex items-center gap-3 mb-3 border-b border-black-ink pb-2 border-dashed">
-                            <div
-                                class="w-10 h-10 bg-black-ink text-white flex items-center justify-center rounded-full">
-                                <span class="font-sans font-bold text-lg">PA</span>
-                            </div>
-                            <div>
-                                <h5 class="font-bold text-sm leading-tight group-hover:underline">Paola Abad</h5>
-                                <p class="text-[10px] text-gray-500 uppercase tracking-wide">Comunicadora &amp; Docente
+                        <div
+                            class="w-full h-32 border border-black-ink bg-gray-200 flex items-center justify-center my-4 overflow-hidden relative">
+                            <img src="img/brain_network.png" alt="Brain Network"
+                                class="absolute w-full h-full object-cover opacity-80 grayscale contrast-125">
+                            <div class="z-10 text-center p-2 bg-white/80 border border-black-ink m-2 backdrop-blur-sm">
+                                <span class="font-bold text-xs block mb-1">PALABRAS CLAVE</span>
+                                <p class="text-[10px] italic">AI in Education · Critical Thinking · Cognitive Offloading
                                 </p>
                             </div>
                         </div>
-                        <i class="fas fa-quote-left text-2xl text-gray-300 mb-2"></i>
-                        <p class="text-xs text-justify font-serif italic mb-3">
-                            "He is a responsible and committed person. He always wants to help and work well in a team.
-                            He has a good attitude and likes to find solutions. He is a very important part of any
-                            project."
-                        </p>
-                        <div class="text-[10px] text-right text-gray-400 font-sans font-bold">AGTO 2025</div>
                     </div>
 
-                    <!-- Recommendation 2: Ana Gabriela Vargas -->
-                    <div
-                        class="border border-black-ink p-4 hover:shadow-[4px_4px_0px_0px_rgba(28,31,51,1)] transition-shadow bg-white group">
-                        <div class="flex items-center gap-3 mb-3 border-b border-black-ink pb-2 border-dashed">
-                            <div
-                                class="w-10 h-10 bg-black-ink text-white flex items-center justify-center rounded-full">
-                                <span class="font-sans font-bold text-lg">AV</span>
-                            </div>
-                            <div>
-                                <h5 class="font-bold text-sm leading-tight group-hover:underline">Ana Gabriela Vargas
-                                </h5>
-                                <p class="text-[10px] text-gray-500 uppercase tracking-wide">Magíster &amp; Gestor</p>
-                            </div>
-                        </div>
-                        <i class="fas fa-quote-left text-2xl text-gray-300 mb-2"></i>
-                        <p class="text-xs text-justify font-serif italic mb-3">
-                            "Es un gran compañero de equipo: siempre dispuesto a ayudar... Su actitud positiva y enfoque
-                            proactivo hacen que sea un verdadero valor. Recomiendo a Charlie sin dudarlo."
+                    <div class="page-footer">
+                        <span>The Cárdenas Chronicle</span>
+                        <span>1</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE 2: CONTINUATION + SIDEBAR -->
+            <div class="page px-6">
+                <div class="page-content">
+                    <h3 class="font-sc text-xl border-b border-black-ink mb-4 pb-1">Metodología y Aplicación (Viene de
+                        pág. 1)
+                    </h3>
+
+                    <div class="columns-2 gap-4 text-xs font-serif text-justify mb-6">
+                        <p class="mb-2">
+                            El estudio estructura CARE+ en cuatro dimensiones clave: <strong>Connect, Act, Reflect y
+                                EXPRESS</strong>. Estas fases alternan deliberadamente entre el soporte de IA y el
+                            trabajo autónomo.
                         </p>
-                        <div class="text-[10px] text-right text-gray-400 font-sans font-bold">MAR 2025</div>
+                        <p>
+                            "Demostramos la metodología a través de un caso de estudio en <strong>DevOps</strong>",
+                            detalla el artículo, probando que es posible integrar herramientas avanzadas sin sacrificar
+                            el pensamiento crítico. El trabajo incluye métricas cuantitativas para evaluar esta
+                            autonomía.
+                        </p>
                     </div>
 
-                    <!-- Recommendation 3: Luis Rodrigo Barba -->
-                    <div
-                        class="border border-black-ink p-4 hover:shadow-[4px_4px_0px_0px_rgba(28,31,51,1)] transition-shadow bg-white group">
-                        <div class="flex items-center gap-3 mb-3 border-b border-black-ink pb-2 border-dashed">
-                            <div
-                                class="w-10 h-10 bg-black-ink text-white flex items-center justify-center rounded-full">
-                                <span class="font-sans font-bold text-lg">LB</span>
+                    <div class="border-t-2 border-black-ink pt-4">
+                        <h4 class="font-sans font-bold uppercase text-sm mb-2 text-center">Destacado del Mes</h4>
+
+                        <div class="flex gap-4 items-start mb-4 border border-black-ink p-2">
+                            <div class="w-12 h-12 bg-black-ink flex items-center justify-center text-white shrink-0">
+                                <i class="fas fa-code-branch"></i>
                             </div>
                             <div>
-                                <h5 class="font-bold text-sm leading-tight group-hover:underline">Dr. Luis Barba</h5>
-                                <p class="text-[10px] text-gray-500 uppercase tracking-wide">Director Maestría IA</p>
+                                <h5 class="font-bold text-xs uppercase leading-tight">Open Source</h5>
+                                <p class="text-[10px] leading-tight mt-1">Contribuidor activo en GitHub. Repositorios de
+                                    innovación educativa y herramientas CLI.</p>
                             </div>
                         </div>
-                        <i class="fas fa-quote-left text-2xl text-gray-300 mb-2"></i>
-                        <p class="text-xs text-justify font-serif italic mb-3">
-                            "Destaca por su profundo conocimiento... así como su capacidad para resolver problemas
-                            complejos... Trabaja bajo presión, manteniendo siempre la calma y un enfoque claro."
-                        </p>
-                        <div class="text-[10px] text-right text-gray-400 font-sans font-bold">FEB 2025</div>
+
+                        <div class="flex gap-4 items-start border border-black-ink p-2">
+                            <div class="w-12 h-12 bg-gray-200 flex items-center justify-center text-black-ink shrink-0">
+                                <i class="fab fa-angular"></i>
+                            </div>
+                            <div>
+                                <h5 class="font-bold text-xs uppercase leading-tight">Stack Moderno</h5>
+                                <p class="text-[10px] leading-tight mt-1">Angular 19, React 18, NestJS. Arquitecturas
+                                    escalables y Clean Code.</p>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- Recommendation 4: Fernanda Soto -->
-                    <div
-                        class="border border-black-ink p-4 hover:shadow-[4px_4px_0px_0px_rgba(28,31,51,1)] transition-shadow bg-white group">
-                        <div class="flex items-center gap-3 mb-3 border-b border-black-ink pb-2 border-dashed">
-                            <div
-                                class="w-10 h-10 bg-black-ink text-white flex items-center justify-center rounded-full">
-                                <span class="font-sans font-bold text-lg">FS</span>
+                    <div class="page-footer">
+                        <span>2</span>
+                        <span>The Cárdenas Chronicle</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE 3: TERRARIUM (CARE+) & TIMELINE -->
+            <div class="page">
+                <div class="page-content">
+                    <figure
+                        class="h-1/2 border border-black-ink relative overflow-hidden bg-gray-100 flex items-center justify-center mb-4 group">
+                        <img src="img/care_plus.png" alt="Metodología CARE+"
+                            class="w-full h-full object-cover grayscale contrast-125 sepia-[.3] opacity-90 group-hover:scale-105 transition-transform duration-700">
+                        <figcaption
+                            class="absolute bottom-0 left-0 bg-white border-t border-r border-black-ink p-1 text-[10px] italic font-sans z-10">
+                            Fig 1. Metodología CARE+
+                        </figcaption>
+                    </figure>
+
+                    <div class="h-1/2 border-t-4 border-black-ink pt-2">
+                        <h4 class="font-title text-xl mb-2 italic">Cronología Académica</h4>
+                        <div
+                            class="space-y-3 relative before:absolute before:left-1 before:top-2 before:h-full before:w-px before:bg-black-ink pl-4">
+                            <div class="relative">
+                                <div class="absolute -left-[1.35rem] top-1 w-2 h-2 bg-black-ink rounded-full"></div>
+                                <div class="font-bold text-xs">2024 - Presente</div>
+                                <div class="text-[10px] uppercase font-sans font-bold">Docente TC - UIDE</div>
                             </div>
-                            <div>
-                                <h5 class="font-bold text-sm leading-tight group-hover:underline">Fernanda Soto</h5>
-                                <p class="text-[10px] text-gray-500 uppercase tracking-wide">Docente UTPL</p>
+                            <div class="relative">
+                                <div
+                                    class="absolute -left-[1.35rem] top-1 w-2 h-2 bg-white border border-black-ink rounded-full">
+                                </div>
+                                <div class="font-bold text-xs">2022 - Presente</div>
+                                <div class="text-[10px] uppercase font-sans font-bold">Docente TP - UTPL</div>
+                            </div>
+                            <div class="relative">
+                                <div
+                                    class="absolute -left-[1.35rem] top-1 w-2 h-2 bg-white border border-black-ink rounded-full">
+                                </div>
+                                <div class="font-bold text-xs">2020 - 2022</div>
+                                <div class="text-[10px] uppercase font-sans font-bold">MSc. Ciencias Computación</div>
+                                <div class="text-[8px] text-gray-500">Reg. SENESCYT 1031-2022-2440152</div>
                             </div>
                         </div>
-                        <i class="fas fa-quote-left text-2xl text-gray-300 mb-2"></i>
-                        <p class="text-xs text-justify font-serif italic mb-3">
-                            "Joven con mucho talento, además de sus habilidades y conocimientos técnicos tiene gran
-                            disposición para el trabajo en equipo en los cuales se conjugue la innovación."
+                    </div>
+
+                    <div class="page-footer">
+                        <span>The Cárdenas Chronicle</span>
+                        <span>3</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE 4: GITHUB & SKILLS -->
+            <div class="page">
+                <div class="page-content">
+                    <!-- GitHub Ticket -->
+                    <a href="https://github.com/CharlieCardenasToledo" target="_blank"
+                        class="block h-1/3 double-border relative overflow-hidden bg-white mb-6 group cursor-pointer">
+                        <div
+                            class="absolute top-4 left-4 border border-black-ink px-2 py-1 font-sc font-bold text-xs z-10 bg-white">
+                            ADMIT ONE</div>
+                        <div class="flex flex-col items-center justify-center h-full">
+                            <i class="fab fa-github text-6xl mb-2 group-hover:scale-110 transition-transform"></i>
+                            <span class="font-sans font-black text-xl uppercase tracking-widest">GitHub Access</span>
+                        </div>
+                        <div class="absolute -right-6 top-1/2 rotate-90 text-[10px] font-mono text-gray-400">repo:
+                            CharlieCardenasToledo</div>
+                    </a>
+
+                    <!-- Skills Menu -->
+                    <div class="h-2/3 border-t border-black-ink pt-4">
+                        <h4 class="font-title text-2xl mb-4 text-center">Menú del Día: Habilidades</h4>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="border p-2 border-dashed border-black-ink">
+                                <h5 class="text-center font-bold text-xs uppercase mb-2 bg-black-ink text-white">
+                                    Entradas (Lenguajes)</h5>
+                                <ul class="text-xs list-none text-center space-y-1">
+                                    <li>Python <span class="text-[10px] italic text-gray-500">(Chef's Choice)</span>
+                                    </li>
+                                    <li>TypeScript</li>
+                                    <li>R &amp; SQL</li>
+                                    <li>Java</li>
+                                </ul>
+                            </div>
+                            <div class="border p-2 border-dashed border-black-ink">
+                                <h5 class="text-center font-bold text-xs uppercase mb-2 bg-black-ink text-white">Platos
+                                    Fuertes (Frameworks)</h5>
+                                <ul class="text-xs list-none text-center space-y-1">
+                                    <li>Angular 19</li>
+                                    <li>React / Next.js</li>
+                                    <li>NestJS</li>
+                                    <li>Django / Flask</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <p class="text-[10px] text-center mt-4 italic"> * Todos los ingredientes son frescos y de código
+                            abierto.</p>
+                    </div>
+
+                    <div class="page-footer">
+                        <span>4</span>
+                        <span>The Cárdenas Chronicle</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE 5: RESEARCH -->
+            <div class="page">
+                <div class="page-content">
+                    <div class="flex justify-between items-center border-b-2 border-black-ink mb-4 pb-2">
+                        <h2 class="font-title text-2xl text-center flex-grow">Investigación Científica</h2>
+                        <div class="border border-black-ink px-2 py-1 text-[10px] font-bold uppercase bg-gray-100">
+                            H-Index: 1
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <!-- CARE+ -->
+                        <article class="relative pl-12 min-h-[50px]">
+                            <i class="fas fa-file-invoice absolute left-0 top-1 text-2xl text-gray-400"></i>
+                            <h5 class="font-bold text-xs leading-tight">CARE+: A Methodology for AI-Enhanced Learning
+                                that Develops 21st Century Competencies</h5>
+                            <p class="text-[10px] italic text-gray-600 mb-0.5">Springer, 2026</p>
+                            <p class="text-[10px] text-justify leading-tight">Metodología para integrar IA Generativa en
+                                el aula.</p>
+                        </article>
+
+                        <!-- Topic Modeling -->
+                        <article class="relative pl-12 min-h-[50px]">
+                            <div
+                                class="absolute left-0 top-0 w-10 h-10 border border-black-ink bg-gray-100 overflow-hidden opacity-80">
+                                <img src="img/topic_modeling.png" alt="Topic Modeling"
+                                    class="w-full h-full object-cover grayscale mix-blend-multiply">
+                            </div>
+                            <h5 class="font-bold text-xs leading-tight">A Topic Modeling Approach to Analyze Teaching
+                                Innovation Projects</h5>
+                            <p class="text-[10px] italic text-gray-600 mb-0.5">ICI2ST 2023</p>
+                            <p class="text-[10px] text-justify leading-tight">Análisis de datos educativos con modelado
+                                de tópicos.</p>
+                        </article>
+
+                        <!-- Clustering -->
+                        <article class="relative pl-12 min-h-[50px]">
+                            <div
+                                class="absolute left-0 top-0 w-10 h-10 border border-black-ink bg-gray-100 overflow-hidden opacity-80">
+                                <img src="img/clustering.png" alt="Clustering"
+                                    class="w-full h-full object-cover grayscale mix-blend-multiply">
+                            </div>
+                            <h5 class="font-bold text-xs leading-tight">Use of clustering techniques in the search for
+                                innovative teacher characteristics</h5>
+                            <p class="text-[10px] italic text-gray-600 mb-0.5">CISTI 2022</p>
+                            <p class="text-[10px] text-justify leading-tight">Algoritmos de agrupamiento para perfiles
+                                docentes.</p>
+                        </article>
+
+                        <!-- Smart Classroom -->
+                        <article class="relative pl-12 min-h-[50px]">
+                            <div
+                                class="absolute left-0 top-0 w-10 h-10 border border-black-ink bg-gray-100 overflow-hidden opacity-80">
+                                <img src="img/smart_agents.png" alt="Smart Agents"
+                                    class="w-full h-full object-cover grayscale mix-blend-multiply">
+                            </div>
+                            <h5 class="font-bold text-xs leading-tight">Diseño e implementación de una arquitectura...
+                                basados en comunidades de agentes</h5>
+                            <p class="text-[10px] italic text-gray-600 mb-0.5">RISTI 2020</p>
+                            <p class="text-[10px] text-justify leading-tight">Arquitectura multi-agente para salones
+                                inteligentes.</p>
+                        </article>
+                    </div>
+
+                    <div class="page-footer">
+                        <span>The Cárdenas Chronicle</span>
+                        <span>5</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE 6: METRICS & SOFT SKILLS -->
+            <div class="page">
+                <div class="page-content">
+                    <div class="h-1/2 mb-4">
+                        <h4 class="font-title text-xl mb-2 text-right italic">Métricas de Impacto</h4>
+                        <div class="grid grid-cols-2 gap-4 h-32">
+                            <div class="border-2 border-black-ink flex flex-col items-center justify-center bg-white">
+                                <span class="text-3xl font-black font-sans">6.6</span>
+                                <span class="text-[10px] uppercase">ResearchGate Score</span>
+                            </div>
+                            <div class="border-2 border-black-ink flex flex-col items-center justify-center bg-white">
+                                <span class="text-3xl font-black font-sans">4</span>
+                                <span class="text-[10px] uppercase">Citas Totales</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="h-1/2 border-t border-black-ink pt-4">
+                        <div class="flex items-center gap-4 mb-2">
+                            <i class="fas fa-users-cog text-4xl"></i>
+                            <h4 class="font-title text-xl italic">Competencias Blandas</h4>
+                        </div>
+                        <ul class="text-xs space-y-2 text-justify">
+                            <li><strong>Liderazgo Educativo:</strong> Gestión de equipos docentes y proyectos de
+                                innovación curricular.</li>
+                            <li><strong>Comunicación Efectiva:</strong> Ponente en conferencias internacionales y
+                                redacción científica.</li>
+                            <li><strong>Adaptabilidad:</strong> Integración rápida de nuevas tecnologías (LLMs, RAG) en
+                                flujos de trabajo tradicionales.</li>
+                        </ul>
+                    </div>
+
+                    <div class="page-footer">
+                        <span>6</span>
+                        <span>The Cárdenas Chronicle</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE 7: RECOMMENDATIONS PART 1 -->
+            <div class="page">
+                <div class="page-content">
+                    <h2 class="font-sc text-2xl text-center mb-6 uppercase border-b border-black-ink pb-2">Voces de la
+                        Comunidad</h2>
+
+                    <div class="space-y-6">
+                        <!-- Rec 1 -->
+                        <div class="relative bg-white p-4 border border-black-ink shadow-[4px_4px_0_0_rgba(0,0,0,1)]">
+                            <i class="fas fa-quote-right absolute top-2 right-2 text-gray-200 text-4xl -z-10"></i>
+                            <p class="text-xs italic text-justify mb-2">
+                                "He is a responsible and committed person. He always wants to help and work well in a
+                                team... He is a very important part of any project."
+                            </p>
+                            <div class="flex items-center gap-2 border-t border-gray-200 pt-2">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-black-ink text-white flex items-center justify-center text-[10px] font-bold">
+                                    PA</div>
+                                <div>
+                                    <div class="font-bold text-xs">Paola Abad</div>
+                                    <div class="text-[8px] uppercase text-gray-500">Comunicadora</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Rec 2 -->
+                        <div class="relative bg-white p-4 border border-black-ink shadow-[4px_4px_0_0_rgba(0,0,0,1)]">
+                            <i class="fas fa-quote-right absolute top-2 right-2 text-gray-200 text-4xl -z-10"></i>
+                            <p class="text-xs italic text-justify mb-2">
+                                "Es un gran compañero de equipo... Su actitud positiva y enfoque proactivo hacen que sea
+                                un verdadero valor para cualquier equipo."
+                            </p>
+                            <div class="flex items-center gap-2 border-t border-gray-200 pt-2">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-black-ink text-white flex items-center justify-center text-[10px] font-bold">
+                                    AV</div>
+                                <div>
+                                    <div class="font-bold text-xs">Ana G. Vargas</div>
+                                    <div class="text-[8px] uppercase text-gray-500">Gestora UTPL</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="page-footer">
+                        <span>The Cárdenas Chronicle</span>
+                        <span>7</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE 8: RECOMMENDATIONS PART 2 -->
+            <div class="page">
+                <div class="page-content">
+                    <h2 class="font-sc text-xl text-center mb-6 text-gray-400">...Continuación</h2>
+
+                    <div class="space-y-6">
+                        <!-- Rec 3 -->
+                        <div class="relative bg-white p-4 border border-black-ink shadow-[4px_4px_0_0_rgba(0,0,0,1)]">
+                            <i class="fas fa-quote-right absolute top-2 right-2 text-gray-200 text-4xl -z-10"></i>
+                            <p class="text-xs italic text-justify mb-2">
+                                "Destaca por su profundo conocimiento en el área de la computación... así como su
+                                capacidad para resolver problemas complejos... Trabaja bajo presión manteniendo la
+                                calma."
+                            </p>
+                            <div class="flex items-center gap-2 border-t border-gray-200 pt-2">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-black-ink text-white flex items-center justify-center text-[10px] font-bold">
+                                    LB</div>
+                                <div>
+                                    <div class="font-bold text-xs">Dr. Luis Barba</div>
+                                    <div class="text-[8px] uppercase text-gray-500">Director Maestría IA</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Rec 4 -->
+                        <div class="relative bg-white p-4 border border-black-ink shadow-[4px_4px_0_0_rgba(0,0,0,1)]">
+                            <i class="fas fa-quote-right absolute top-2 right-2 text-gray-200 text-4xl -z-10"></i>
+                            <p class="text-xs italic text-justify mb-2">
+                                "Joven con mucho talento... tiene gran disposición para el trabajo en equipo en los
+                                cuales se conjugue la innovación y creatividad."
+                            </p>
+                            <div class="flex items-center gap-2 border-t border-gray-200 pt-2">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-black-ink text-white flex items-center justify-center text-[10px] font-bold">
+                                    FS</div>
+                                <div>
+                                    <div class="font-bold text-xs">Fernanda Soto</div>
+                                    <div class="text-[8px] uppercase text-gray-500">Docente UTPL</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="page-footer">
+                        <span>8</span>
+                        <span>The Cárdenas Chronicle</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE 9: PROJECTS / CSS GRID -->
+            <div class="page">
+                <div class="page-content">
+                    <div
+                        class="border border-black-ink h-1/2 flex items-center justify-center bg-gray-200 mb-4 relative overflow-hidden group">
+                        <i
+                            class="fas fa-project-diagram text-8xl text-black-ink opacity-30 group-hover:opacity-50 transition-opacity"></i>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <span
+                                class="font-sc text-2xl font-bold bg-white px-4 py-2 border border-black-ink rotate-[-5deg]">Portafolio</span>
+                        </div>
+                    </div>
+
+                    <div class="h-1/2">
+                        <h4 class="font-title text-xl mb-2">Ecosistema Digital</h4>
+                        <p class="text-xs text-justify mb-2">
+                            Además de las publicaciones académicas, he desarrollado soluciones prácticas:
                         </p>
-                        <div class="text-[10px] text-right text-gray-400 font-sans font-bold">OCT 2024</div>
+                        <ul class="text-xs list-disc pl-4 space-y-1 mb-4">
+                            <li><strong>Sistemas Académicos:</strong> Plataformas de gestión de aprendizaje.</li>
+                            <li><strong>Herramientas CLI:</strong> Automatización de tareas para desarrolladores.</li>
+                            <li><strong>Dashboards Educativos:</strong> Visualización de datos de rendimiento
+                                estudiantil.</li>
+                        </ul>
+                        <p class="text-[10px] text-center border-t border-black-ink pt-2 uppercase font-bold">Disponible
+                            en GitHub</p>
+                    </div>
+
+                    <div class="page-footer">
+                        <span>The Cárdenas Chronicle</span>
+                        <span>9</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE 10: WORK TOGETHER -->
+            <div class="page">
+                <div
+                    class="page-content flex flex-col justify-center text-center border-4 border-double border-black-ink m-4 h-[90%]">
+
+                    <i class="fas fa-handshake text-6xl mb-4 text-black-ink"></i>
+
+                    <h2 class="font-title text-3xl mb-2">Trabajemos Juntos</h2>
+                    <p class="text-sm px-6 font-serif italic mb-6">
+                        ¿Interesado en elevar la calidad educativa mediante soluciones tecnológicas avanzadas?
+                    </p>
+
+                    <div
+                        class="bg-black-ink text-white py-3 px-6 mx-auto inline-block font-sans font-bold uppercase tracking-widest text-xs mb-8">
+                        Charlie.ACT7@gmail.com
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 px-8 text-2xl">
+                        <a href="#" class="hover:text-gray-600"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://github.com/CharlieCardenasToledo" target="_blank"
+                            class="hover:text-gray-600"><i class="fab fa-github"></i></a>
+                    </div>
+
+                </div>
+                <div class="page-footer">
+                    <span>10</span>
+                    <span>The Cárdenas Chronicle</span>
+                </div>
+            </div>
+
+            <!-- PAGE 11: BACK COVER - PATTERN -->
+            <div class="page">
+                <div class="page-content flex items-center justify-center bg-gray-200 page-pattern">
+                    <div class="w-full h-full flex items-center justify-center opacity-10">
+                        <i class="fas fa-newspaper text-[20rem]"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE 12: BACK COVER - FINAL -->
+            <div class="page">
+                <div class="page-content flex flex-col justify-end text-center">
+
+                    <div class="mb-12">
+                        <i class="fas fa-feather-alt text-6xl mb-4"></i>
+                        <p class="font-title text-xl">Fin de la Edición</p>
+                    </div>
+
+                    <div class="border-t border-black-ink pt-4">
+                        <p class="text-[10px] uppercase font-sans tracking-widest">
+                            © 2025 Charlie Cárdenas Toledo<br>
+                            Loja, Ecuador
+                        </p>
                     </div>
 
                 </div>
             </div>
 
-            <!-- WORKOUT -> FINAL CTA -->
-            <div
-                class="workout col-span-full double-border w-[calc(100%-4px)] mx-auto mt-12 mb-2 group cursor-pointer hover:bg-gray-50 transition-colors">
-                <div
-                    class="p-1 border-b border-black-ink h-64 md:h-80 bg-gray-200 flex items-center justify-center overflow-hidden relative">
-                    <i class="fas fa-university text-[10rem] md:text-[15rem] text-black-ink opacity-10 absolute"></i>
-                    <div class="z-10 text-center">
-                        <i class="fas fa-handshake text-6xl mb-4"></i>
-                        <h3 class="font-title text-3xl">Trabajemos Juntos</h3>
-                    </div>
-                </div>
-                <div
-                    class="text-center p-2 font-sans text-xl leading-tight -mt-4 bg-white relative mx-4 border border-black-ink shadow-sm">
-                    ¿Interesado en elevar la calidad educativa con tecnología?
-                </div>
-                <div
-                    class="text-center uppercase font-sans font-bold bg-black-ink text-gray-paper p-4 text-sm tracking-widest mt-2 group-hover:bg-transparent group-hover:text-black-ink transition-all">
-                    Contactar Ahora
-                </div>
-            </div>
-
-        </main>
-
-        <footer class="text-center mt-16 mb-8 text-xs font-sans text-gray-500 border-t border-gray-300 pt-4">
-            <p>Designed with Semantic HTML & TailwindCSS based on The Codepen Times structure.</p>
-        </footer>
-
+        </div>
     </div>
 
+    <!-- Initialization Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const pageFlip = new St.PageFlip(document.getElementById('book'), {
+                width: 400, // Reduced width for single page view in book
+                height: 600,
+                size: "stretch", // Responsive
+                minWidth: 300,
+                maxWidth: 600,
+                minHeight: 400,
+                maxHeight: 800,
+                showCover: true,
+                maxShadowOpacity: 0.5,
+                autoSize: true, // Crucial for responsive fitting
+                mobileScrollSupport: false
+            });
+
+            // Load pages
+            pageFlip.loadFromHTML(document.querySelectorAll('.page'));
+
+            // Controls
+            document.querySelector('.btn-prev').addEventListener('click', () => {
+                pageFlip.flipPrev();
+            });
+
+            document.querySelector('.btn-next').addEventListener('click', () => {
+                pageFlip.flipNext();
+            });
+
+            // Page counter update
+            pageFlip.on('flip', (e) => {
+                document.querySelector('.page-current').innerText = e.data + 1;
+            });
+
+            // Initial total count
+            // Note: getPageCount() might not be immediately available if load is async-ish, 
+            // but for loadFromHTML it usually is.
+            setTimeout(() => {
+                document.querySelector('.page-total').innerText = pageFlip.getPageCount();
+            }, 500);
+
+        });
+    </script>
 </body>
 
 </html>
