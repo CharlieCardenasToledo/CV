@@ -9,7 +9,8 @@ Profesor Asociado | Investigador en IA Educativa | Full-Stack Developer
 
 Este repositorio contiene mi curriculum vitae académico y profesional en múltiples formatos:
 
-- **Web Portfolio**: [charliecardenastoledo.github.io/CV](https://charliecardenastoledo.github.io/CV)
+- **Web Portfolio (Scroll)**: [index.html](https://charliecardenastoledo.github.io/CV) - Versión tradicional con scroll vertical
+- **Web Portfolio (Page Flip)**: [index-pageflip.html](https://charliecardenastoledo.github.io/CV/index-pageflip.html) - Versión libro digital con efecto de volteo de páginas
 - **PDF Académico**: `cv-charlie-cardenas-toledo.pdf`
 - **Código Fuente LaTeX**: `cv-charlie-cardenas-toledo.tex`
 
@@ -96,11 +97,34 @@ Git/GitHub, Docker, Jupyter, LaTeX, ChatGPT, Claude Code
 
 ```
 CV/
-├── index.html                      # Portfolio web (estilo periódico vintage)
+├── index.html                      # Portfolio web (estilo periódico vintage - scroll)
+├── index-pageflip.html             # Portfolio web (libro digital con efecto de volteo)
 ├── cv-charlie-cardenas-toledo.pdf  # CV académico en PDF
 ├── cv-charlie-cardenas-toledo.tex  # Código fuente LaTeX del CV
 └── README.md                       # Este archivo
 ```
+
+## Características del Portfolio Web
+
+### Versión Scroll (index.html)
+- Diseño de periódico vintage con tipografía clásica
+- Navegación vertical tradicional
+- Animaciones de fade-in
+- Totalmente responsive
+
+### Versión Page Flip (index-pageflip.html)
+- Efecto realista de volteo de páginas usando [StPageFlip](https://nodlik.github.io/StPageFlip/)
+- 6 páginas con diferentes layouts de grid tipo periódico:
+  - **Portada**: Grid de 1 columna con masthead
+  - **Perfil**: Grid asimétrico 60/40
+  - **Formación**: Grid de 3 columnas iguales
+  - **Publicaciones**: Grid de 2 columnas simétricas
+  - **Habilidades**: Grid mixto (2fr-1fr-1fr)
+  - **Contacto**: Grid de 2 columnas con referencias
+- Navegación con botones y teclado (flechas izquierda/derecha)
+- Arrastre interactivo para voltear páginas
+- Sombras realistas y animaciones suaves
+- Responsive con soporte para modo retrato
 
 ---
 
