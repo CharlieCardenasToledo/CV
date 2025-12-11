@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Charlie Cárdenas Toledo | CV Académico</title>
+    <meta name="description" content="CV Académico de Charlie Cárdenas Toledo - Profesor e Investigador en IA Educativa">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563eb',
+                        secondary: '#1e40af',
+                        accent: '#3b82f6',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.6s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(37, 99, 235, 0.15);
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #2563eb;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .section-card {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(37, 99, 235, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen">
+    
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-white/80 backdrop-blur-md shadow-sm z-50">
+        <div class="max-w-6xl mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="#home" class="text-2xl font-bold gradient-text">CCT</a>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#about" class="nav-link text-gray-700 hover:text-primary">Sobre mí</a>
+                    <a href="#experience" class="nav-link text-gray-700 hover:text-primary">Experiencia</a>
+                    <a href="#publications" class="nav-link text-gray-700 hover:text-primary">Publicaciones</a>
+                    <a href="#skills" class="nav-link text-gray-700 hover:text-primary">Habilidades</a>
+                    <a href="#contact" class="nav-link text-gray-700 hover:text-primary">Contacto</a>
+                </div>
+                <button id="mobile-menu-btn" class="md:hidden text-gray-700">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden mt-4 space-y-2">
+                <a href="#about" class="block py-2 text-gray-700 hover:text-primary">Sobre mí</a>
+                <a href="#experience" class="block py-2 text-gray-700 hover:text-primary">Experiencia</a>
+                <a href="#publications" class="block py-2 text-gray-700 hover:text-primary">Publicaciones</a>
+                <a href="#skills" class="block py-2 text-gray-700 hover:text-primary">Habilidades</a>
+                <a href="#contact" class="block py-2 text-gray-700 hover:text-primary">Contacto</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="pt-32 pb-20 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center fade-in">
+                <div class="mb-8">
+                    <div class="w-32 h-32 mx-auto rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white text-5xl font-bold shadow-xl">
+                        CC
+                    </div>
+                </div>
+                <h1 class="text-5xl md:text-6xl font-bold text-gray-900 mb-4">
+                    Charlie Alexander <span class="gradient-text">Cárdenas Toledo</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-600 mb-6">
+                    Magíster en Ciencias y Tecnologías de la Computación
+                </p>
+                <p class="text-lg text-gray-500 mb-8 max-w-2xl mx-auto">
+                    Profesor Asociado | Investigador en IA Educativa | Full-Stack Developer
+                </p>
+                <div class="flex justify-center space-x-4 mb-8">
+                    <a href="https://github.com/CharlieCardenasToledo" target="_blank" 
+                       class="w-12 h-12 rounded-full bg-gray-800 text-white flex items-center justify-center hover-lift">
+                        <i class="fab fa-github text-xl"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/charlie-cardenas-toledo" target="_blank"
+                       class="w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center hover-lift">
+                        <i class="fab fa-linkedin text-xl"></i>
+                    </a>
+                    <a href="https://orcid.org/0000-0002-6658-7532" target="_blank"
+                       class="w-12 h-12 rounded-full bg-green-600 text-white flex items-center justify-center hover-lift">
+                        <i class="fas fa-graduation-cap text-xl"></i>
+                    </a>
+                    <a href="mailto:charlie.act7@gmail.com"
+                       class="w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center hover-lift">
+                        <i class="fas fa-envelope text-xl"></i>
+                    </a>
+                </div>
+                <div class="flex flex-wrap justify-center gap-3">
+                    <span class="px-4 py-2 bg-blue-100 text-primary rounded-full text-sm font-medium">
+                        <i class="fas fa-map-marker-alt mr-2"></i>Loja, Ecuador
+                    </span>
+                    <span class="px-4 py-2 bg-blue-100 text-primary rounded-full text-sm font-medium">
+                        <i class="fas fa-university mr-2"></i>UIDE
+                    </span>
+                    <span class="px-4 py-2 bg-blue-100 text-primary rounded-full text-sm font-medium">
+                        <i class="fas fa-chart-line mr-2"></i>RG Score: 6.6
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 px-6 bg-white">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-12 gradient-text">Sobre Mí</h2>
+            <div class="section-card rounded-2xl p-8 hover-lift">
+                <p class="text-lg text-gray-700 leading-relaxed mb-6">
+                    Educador apasionado enfocado en innovación y programación. Ayudo a estudiantes y futuros profesionales 
+                    a transformar su potencial en habilidades reales, combinando teoría con práctica de manera clara, empática y efectiva.
+                </p>
+                <p class="text-lg text-gray-700 leading-relaxed mb-6">
+                    Especializado en enseñanza de programación, inteligencia artificial y desarrollo de software, aplicando 
+                    metodologías activas, proyectos reales y tecnologías actuales como Angular, Python y herramientas de IA.
+                </p>
+                <p class="text-lg text-gray-700 leading-relaxed font-medium text-primary">
+                    Mis clases no solo forman técnicos, sino solucionadores creativos de problemas.
+                </p>
+            </div>
+            
+            <!-- Education -->
+            <div class="mt-12 grid md:grid-cols-2 gap-6">
+                <div class="section-card rounded-xl p-6 hover-lift">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-graduation-cap text-primary text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg text-gray-900 mb-1">Magíster en Ciencias y Tecnologías de la Computación</h3>
+                            <p class="text-gray-600 mb-2">Universidad Técnica Particular de Loja (UTPL)</p>
+                            <p class="text-sm text-gray-500">2020 - 2022</p>
+                            <p class="text-sm text-gray-600 mt-2">Registro SENESCYT: 1031-2022-2440152</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section-card rounded-xl p-6 hover-lift">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-user-graduate text-primary text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg text-gray-900 mb-1">Ingeniero en Sistemas Informáticos y Computación</h3>
+                            <p class="text-gray-600 mb-2">Universidad Técnica Particular de Loja (UTPL)</p>
+                            <p class="text-sm text-gray-500">2014 - 2019</p>
+                            <p class="text-sm text-gray-600 mt-2">Registro SENESCYT: 1031-2019-2122417</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="py-20 px-6">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-12 gradient-text">Experiencia Profesional</h2>
+            
+            <div class="space-y-6">
+                <!-- UIDE -->
+                <div class="section-card rounded-xl p-6 hover-lift">
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-900">Personal Docente - Tiempo Completo</h3>
+                            <p class="text-primary font-medium">Universidad Internacional del Ecuador (UIDE)</p>
+                        </div>
+                        <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
+                            Mayo 2024 - Presente
+                        </span>
+                    </div>
+                    <ul class="space-y-2 text-gray-700">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-primary mt-1 mr-3"></i>
+                            <span>Profesor en programas de Ciencias de la Computación y Maestría</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-primary mt-1 mr-3"></i>
+                            <span>Cursos: Ingeniería de Software, Sistemas de Gestión de Bases de Datos, Desarrollo Web</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-primary mt-1 mr-3"></i>
+                            <span>Implementación de metodologías activas y herramientas de IA en enseñanza</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- UTPL Docente -->
+                <div class="section-card rounded-xl p-6 hover-lift">
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-900">Personal Docente - Tiempo Parcial</h3>
+                            <p class="text-primary font-medium">Universidad Técnica Particular de Loja (UTPL)</p>
+                        </div>
+                        <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
+                            Oct 2022 - Presente
+                        </span>
+                    </div>
+                    <ul class="space-y-2 text-gray-700">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-primary mt-1 mr-3"></i>
+                            <span>Docencia en Inteligencia Artificial y áreas relacionadas</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-primary mt-1 mr-3"></i>
+                            <span>Modalidad híbrida combinando presencialidad y virtualidad</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- UTPL Lab -->
+                <div class="section-card rounded-xl p-6 hover-lift">
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-900">Técnico del Laboratorio de Innovación Docente</h3>
+                            <p class="text-primary font-medium">Universidad Técnica Particular de Loja (UTPL)</p>
+                        </div>
+                        <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm font-medium">
+                            Oct 2019 - Oct 2023
+                        </span>
+                    </div>
+                    <ul class="space-y-2 text-gray-700">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-primary mt-1 mr-3"></i>
+                            <span>Responsable técnico del Laboratorio de Investigación e Innovación Docente (LiiD)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-primary mt-1 mr-3"></i>
+                            <span>Gestión de proyectos de innovación educativa</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Publications Section -->
+    <section id="publications" class="py-20 px-6 bg-white">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-4 gradient-text">Producción Científica</h2>
+            <div class="text-center mb-12">
+                <p class="text-gray-600">ORCID: <a href="https://orcid.org/0000-0002-6658-7532" class="text-primary hover:underline">0000-0002-6658-7532</a></p>
+                <p class="text-gray-600">ResearchGate Score: 6.6 | 4 Citas | h-index: 1</p>
+            </div>
+            
+            <div class="space-y-6">
+                <!-- Publication 1 -->
+                <div class="section-card rounded-xl p-6 hover-lift">
+                    <div class="flex items-start justify-between mb-3">
+                        <span class="px-3 py-1 bg-blue-100 text-primary rounded-full text-sm font-bold">2026</span>
+                        <span class="text-sm text-gray-500">Book Chapter</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">
+                        CARE+: A Methodology for AI-Enhanced Learning that Develops 21st Century Competencies
+                    </h3>
+                    <p class="text-gray-600 mb-2">Con F.M. Soto Guerrero y M.I. Loaiza</p>
+                    <a href="https://doi.org/10.1007/978-3-032-08366-1_8" target="_blank" 
+                       class="text-primary hover:underline text-sm">
+                        <i class="fas fa-external-link-alt mr-1"></i>DOI: 10.1007/978-3-032-08366-1_8
+                    </a>
+                </div>
+
+                <!-- Publication 2 -->
+                <div class="section-card rounded-xl p-6 hover-lift">
+                    <div class="flex items-start justify-between mb-3">
+                        <span class="px-3 py-1 bg-blue-100 text-primary rounded-full text-sm font-bold">2023</span>
+                        <span class="text-sm text-gray-500">Conference Paper</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">
+                        A Topic Modeling Approach to Analyze Teaching Innovation Projects
+                    </h3>
+                    <p class="text-gray-600 mb-2">Con S. Rosales y R. Reátegui</p>
+                    <p class="text-sm text-gray-500 mb-2">2023 Fourth International Conference on Information Systems and Software Technologies (ICI2ST)</p>
+                    <a href="https://doi.org/10.1109/ici2st62251.2023.00014" target="_blank"
+                       class="text-primary hover:underline text-sm">
+                        <i class="fas fa-external-link-alt mr-1"></i>DOI: 10.1109/ici2st62251.2023.00014
+                    </a>
+                </div>
+
+                <!-- Publication 3 -->
+                <div class="section-card rounded-xl p-6 hover-lift">
+                    <div class="flex items-start justify-between mb-3">
+                        <span class="px-3 py-1 bg-blue-100 text-primary rounded-full text-sm font-bold">2022</span>
+                        <span class="text-sm text-gray-500">Conference Paper</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">
+                        Use of clustering techniques in the search for innovative teacher characteristics
+                    </h3>
+                    <p class="text-gray-600 mb-2">Con L. Barba-Guamán, M.I. Loaiza y P. Valdiviezo-Diaz</p>
+                    <p class="text-sm text-gray-500 mb-2">2022 17th Iberian Conference on Information Systems and Technologies (CISTI)</p>
+                    <a href="https://doi.org/10.23919/cisti54924.2022.9820569" target="_blank"
+                       class="text-primary hover:underline text-sm">
+                        <i class="fas fa-external-link-alt mr-1"></i>DOI: 10.23919/cisti54924.2022.9820569
+                    </a>
+                </div>
+
+                <!-- Publication 4 -->
+                <div class="section-card rounded-xl p-6 hover-lift">
+                    <div class="flex items-start justify-between mb-3">
+                        <span class="px-3 py-1 bg-blue-100 text-primary rounded-full text-sm font-bold">2020</span>
+                        <span class="text-sm text-gray-500">Book Chapter</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">
+                        Diseño e implementación de una arquitectura de comunicación entre dispositivos tecnológicos basados en comunidades de agentes para un salón inteligente
+                    </h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-20 px-6">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-12 gradient-text">Habilidades Técnicas</h2>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Languages -->
+                <div class="section-card rounded-xl p-6 hover-lift">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mr-3">
+                            <i class="fas fa-code text-primary"></i>
+                        </div>
+                        <h3 class="font-bold text-lg">Lenguajes</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-blue-50 text-primary rounded-lg text-sm">JavaScript</span>
+                        <span class="px-3 py-1 bg-blue-50 text-primary rounded-lg text-sm">TypeScript</span>
+                        <span class="px-3 py-1 bg-blue-50 text-primary rounded-lg text-sm">Python</span>
+                        <span class="px-3 py-1 bg-blue-50 text-primary rounded-lg text-sm">R</span>
+                        <span class="px-3 py-1 bg-blue-50 text-primary rounded-lg text-sm">SQL</span>
+                    </div>
+                </div>
+
+                <!-- Frontend -->
+                <div class="section-card rounded-xl p-6 hover-lift">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mr-3">
+                            <i class="fas fa-palette text-primary"></i>
+                        </div>
+                        <h3 class="font-bold text-lg">Frontend</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-blue-50 text-primary rounded-lg text-sm">Angular</span>
+                        <span class="px-3 py-1 bg-blue-50 text-primary rounded-lg text-sm">React</span>
+                        <span class="px-3 py-1 bg-blue-50 text-primary rounded-lg text-sm">Next.js</span>
+                    </div>
+                </div>
+
+                <!-- Backend -->
+                <div class="section-card rounded-xl p-6 hover-lift">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mr-3">
+                            <i class="fas fa-server text-primary"></i>
+                        </div>
+                        <h3 class="font-bold text-lg">Backend</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-blue-50 text-primary rounded-lg text-sm">NestJS</span>
+                        <span class="px-3 py-1 bg-blue-50 text-primary rounded-lg text-sm">Flask</span>
+                        <span class="px-3 py-1 bg-blue-50 text-primary rounded-lg text-sm">Node.js</span>
+                    </div>
+                </div>
+
+                <!-- ML/AI -->
+                <div class="section-card rounded-xl p-6 hover-lift">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mr-3">
+                            <i class="fas fa-brain text-primary"></i>
+                        </div>
+                        <h3 class="font-bold text-lg">ML/AI</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-blue-50 text-primary rounded-lg text-sm">Scikit-learn</span>
+                        <span class="px-3 py-1 bg-blue-50 text-primary rounded-lg text-sm">Pandas</span>
+                        <span class="px-3 py-1 bg-blue-50 text-primary rounded-lg text-sm">NumPy</span>
+                    </div>
+                </div>
+
+                <!-- Databases -->
+                <div class="section-card rounded-xl p-6 hover-lift">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mr-3">
+                            <i class="fas fa-database text-primary"></i>
+                        </div>
+                        <h3 class="font-bold text-lg">Bases de Datos</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-blue-50 text-primary rounded-lg text-sm">PostgreSQL</span>
+                        <span class="px-3 py-1 bg-blue-50 text-primary rounded-lg text-sm">MongoDB</span>
+                        <span class="px-3 py-1 bg-blue-50 text-primary rounded-lg text-sm">Firebase</span>
+                    </div>
+                </div>
+
+                <!-- Tools -->
+                <div class="section-card rounded-xl p-6 hover-lift">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mr-3">
+                            <i class="fas fa-tools text-primary"></i>
+                        </div>
+                        <h3 class="font-bold text-lg">Herramientas</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-blue-50 text-primary rounded-lg text-sm">Git/GitHub</span>
+                        <span class="px-3 py-1 bg-blue-50 text-primary rounded-lg text-sm">Docker</span>
+                        <span class="px-3 py-1 bg-blue-50 text-primary rounded-lg text-sm">ChatGPT</span>
+                        <span class="px-3 py-1 bg-blue-50 text-primary rounded-lg text-sm">Claude Code</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 px-6 bg-white">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-6 gradient-text">Contacto</h2>
+            <p class="text-lg text-gray-600 mb-8">
+                ¿Interesado en colaborar o tienes alguna pregunta? ¡No dudes en contactarme!
+            </p>
+            
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <a href="mailto:charlie.act7@gmail.com" class="section-card rounded-xl p-6 hover-lift flex items-center justify-center space-x-3">
+                    <i class="fas fa-envelope text-primary text-2xl"></i>
+                    <span class="text-gray-700">charlie.act7@gmail.com</span>
+                </a>
+                <a href="https://www.linkedin.com/in/charlie-cardenas-toledo" target="_blank" 
+                   class="section-card rounded-xl p-6 hover-lift flex items-center justify-center space-x-3">
+                    <i class="fab fa-linkedin text-primary text-2xl"></i>
+                    <span class="text-gray-700">LinkedIn</span>
+                </a>
+            </div>
+            
+            <div class="section-card rounded-xl p-8">
+                <h3 class="font-bold text-xl mb-4">Referencias Disponibles</h3>
+                <div class="grid md:grid-cols-2 gap-4 text-left">
+                    <div>
+                        <p class="font-medium text-gray-900">Luis Rodrigo Barba Guamán, Ph.D</p>
+                        <p class="text-sm text-gray-600">Director de Maestría en IA - UTPL</p>
+                        <a href="https://www.linkedin.com/in/luis-rodrigo-barba-guaman-ph-d-383b3a6" target="_blank" 
+                           class="text-primary text-sm hover:underline">
+                            <i class="fab fa-linkedin mr-1"></i>LinkedIn
+                        </a>
+                    </div>
+                    <div>
+                        <p class="font-medium text-gray-900">Fernanda Soto, Magíster</p>
+                        <p class="text-sm text-gray-600">Docente - UTPL</p>
+                        <a href="https://www.linkedin.com/in/fernanda-soto-04725353/" target="_blank"
+                           class="text-primary text-sm hover:underline">
+                            <i class="fab fa-linkedin mr-1"></i>LinkedIn
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8 px-6">
+        <div class="max-w-6xl mx-auto text-center">
+            <p class="text-gray-400">
+                © 2025 Charlie Cárdenas Toledo. Todos los derechos reservados.
+            </p>
+            <p class="text-gray-500 text-sm mt-2">
+                Hecho con <i class="fas fa-heart text-red-500"></i> usando TailwindCSS
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Close mobile menu if open
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+
+        // Fade in on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section-card, .hover-lift').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
